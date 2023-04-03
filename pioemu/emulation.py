@@ -131,15 +131,10 @@ def _advance_program_counter(
     else:
         new_pc = state.program_counter + 1
 
-    match instruction.program_counter_advance:
-        case ProgramCounterAdvance.ALWAYS:
-            return replace(state, program_counter=new_pc)
-        case ProgramCounterAdvance.WHEN_CONDITION_MET if condition_met:
-            return replace(state, program_counter=new_pc)
-        case ProgramCounterAdvance.WHEN_CONDITION_NOT_MET if not condition_met:
-            return replace(state, program_counter=new_pc)
-        case _:
-            return state
+    if instruction.program_counter_advance == ProgramCounterAdvance.ALWAYS or (instruction.program_counter_advance == ProgramCounterAdvance.ALWAYS and condition_met) or (instruction.program_counter_advance == ProgramCounterAdvance.WHEN_CONDITION_NOT_MET and not condition_met):
+        return replace(state, program_counter=new_pc)
+    else:
+        return state
 
 
 def _apply_delay_value(
