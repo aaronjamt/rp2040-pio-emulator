@@ -22,11 +22,11 @@ def always(_):
     return True
 
 
-def gpio_low(pin_number: int):
+def gpio_low(pin_number, state):
     return not gpio_high(pin_number, state)
 
 
-def gpio_high(pin_number: int):
+def gpio_high(pin_number, state):
     return state.pin_values & (1 << pin_number) != 0
 
 
