@@ -1,6 +1,6 @@
 # Emulator for the PIO Blocks within the RP2040 Microcontroller (Python Edition)
 
-# Note: this branch is designed to support legacy versions of Python and isn't officially supported. I will try to keep this up to date and maximize compatibility but I can't promise long-term support.
+## Note: this branch is designed to support legacy versions of Python and isn't officially supported. I will try to keep this up to date and maximize compatibility but I can't promise long-term support.
 
 ![Build Status](https://github.com/NathanY3G/rp2040-pio-emulator/actions/workflows/package-ci.yml/badge.svg) ![Coverage](./docs/images/coverage-badge.svg) [![PyPI](https://img.shields.io/pypi/v/rp2040-pio-emulator?color=informational)](https://pypi.org/project/rp2040-pio-emulator/)
 
