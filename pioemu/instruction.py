@@ -13,6 +13,7 @@
 # limitations under the License.
 from dataclasses import dataclass
 from enum import auto, Enum
+from typing import Callable
 from .state import State
 
 
@@ -25,6 +26,6 @@ class ProgramCounterAdvance(Enum):
 
 @dataclass(frozen=True)
 class Instruction:
-    condition
-    callable
-    program_counter_advance
+    condition: Callable[[State], bool]
+    callable: Callable[[State], State]
+    program_counter_advance: ProgramCounterAdvance
