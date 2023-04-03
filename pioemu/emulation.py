@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from dataclasses import replace
-from typing import Callable, Generator, List, Tuple
 from .instruction import Instruction, ProgramCounterAdvance
 from .instruction_decoder import InstructionDecoder
 from .shift_register import ShiftRegister

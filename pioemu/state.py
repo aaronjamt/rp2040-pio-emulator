@@ -13,29 +13,28 @@
 # limitations under the License.
 from collections import deque
 from dataclasses import dataclass, field
-from typing import Deque
 
 from .shift_register import ShiftRegister
 
 
-def ShiftRegisterFactoryMin() -> ShiftRegister:
+def ShiftRegisterFactoryMin():
     return ShiftRegister(0, 0)
 
 
-def ShiftRegisterFactoryMax() -> ShiftRegister:
+def ShiftRegisterFactoryMax():
     return ShiftRegister(0, 32)
 
 
 @dataclass(frozen=True)
 class State:
-    clock: int = 0
-    program_counter: int = 0
-    pin_directions: int = 0
-    pin_values: int = 0
-    transmit_fifo: Deque[int] = field(default_factory=lambda: deque())
-    input_shift_register: ShiftRegister = field(default_factory=ShiftRegisterFactoryMin)
-    output_shift_register: ShiftRegister = field(
+    clock = 0
+    program_counter = 0
+    pin_directions = 0
+    pin_values = 0
+    transmit_fifo = field(default_factory=lambda: deque())
+    input_shift_register = field(default_factory=ShiftRegisterFactoryMin)
+    output_shift_register = field(
         default_factory=ShiftRegisterFactoryMax
     )
-    x_register: int = 0
-    y_register: int = 0
+    x_register = 0
+    y_register = 0

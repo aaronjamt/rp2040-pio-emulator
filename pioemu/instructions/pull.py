@@ -17,13 +17,13 @@ from ..shift_register import ShiftRegister
 from ..state import State
 
 
-def pull_blocking(state: State) -> State:
+def pull_blocking(state):
     return replace(
         state, output_shift_register=ShiftRegister(state.transmit_fifo.pop(), 0)
     )
 
 
-def pull_nonblocking(state: State) -> State:
+def pull_nonblocking(state):
     if transmit_fifo_not_empty(state):
         new_contents = state.transmit_fifo.pop()
     else:
