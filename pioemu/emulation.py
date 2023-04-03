@@ -23,7 +23,7 @@ def emulate(
     opcodes,
     *,
     stop_when,
-    initial_state,
+    initial_state = State(),
     input_source = None,
     shift_isr_right = True,
     shift_osr_right = True,
