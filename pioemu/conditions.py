@@ -11,49 +11,48 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from typing import Callable, Literal
 from .state import State
 
 
-def clock_cycles_reached(target_value: int) -> Callable[[int, State], bool]:
+def clock_cycles_reached(target_value):
     return lambda _, state: state.clock >= target_value
 
 
-def always(_: State) -> Literal[True]:
+def always(_):
     return True
 
 
-def gpio_low(pin_number: int, state: State) -> bool:
+def gpio_low(pin_number: int):
     return not gpio_high(pin_number, state)
 
 
-def gpio_high(pin_number: int, state: State) -> bool:
+def gpio_high(pin_number: int):
     return state.pin_values & (1 << pin_number) != 0
 
 
-def transmit_fifo_not_empty(state: State) -> bool:
+def transmit_fifo_not_empty(state):
     return len(state.transmit_fifo) > 0
 
 
-def x_register_equals_zero(state: State) -> bool:
+def x_register_equals_zero(state):
     return state.x_register == 0
 
 
-def x_register_not_equal_to_zero(state: State) -> bool:
+def x_register_not_equal_to_zero(state):
     return state.x_register != 0
 
 
-def y_register_equals_zero(state: State) -> bool:
+def y_register_equals_zero(state):
     return state.y_register == 0
 
 
-def y_register_not_equal_to_zero(state: State) -> bool:
+def y_register_not_equal_to_zero(state):
     return state.y_register != 0
 
 
-def x_register_not_equal_to_y_register(state: State) -> bool:
+def x_register_not_equal_to_y_register(state):
     return state.x_register != state.y_register
 
 
-def output_shift_register_not_empty(state: State) -> bool:
+def output_shift_register_not_empty(state):
     return state.output_shift_register.counter != 32
