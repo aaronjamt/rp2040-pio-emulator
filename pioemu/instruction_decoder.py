@@ -61,9 +61,9 @@ class InstructionDecoder:
 
     def __init__(
         self,
-        shift_isr_method: Callable[[ShiftRegister, int], Tuple[ShiftRegister, int]],
-        shift_osr_method: Callable[[ShiftRegister, int], Tuple[ShiftRegister, int]],
-        jmp_pin: int,
+        shift_isr_method,
+        shift_osr_method,
+        jmp_pin,
     ):
         """
         Parameters
@@ -79,7 +79,7 @@ class InstructionDecoder:
         self.shift_isr_method = shift_isr_method
         self.shift_osr_method = shift_osr_method
 
-        self.decoding_functions: List[Callable[[int], Instruction | None]] = [
+        self.decoding_functions = [
             self._decode_jmp,
             self._decode_wait,
             self._decode_in,
@@ -90,7 +90,7 @@ class InstructionDecoder:
             self._decode_set,
         ]
 
-        self.jmp_conditions: List[Callable[[State], bool]] = [
+        self.jmp_conditions = [
             always,
             x_register_equals_zero,
             x_register_not_equal_to_zero,
@@ -101,7 +101,7 @@ class InstructionDecoder:
             output_shift_register_not_empty,
         ]
 
-        self.in_sources: List[Callable[[State], int] | None] = [
+        self.in_sources = [
             read_from_pins,
             read_from_x,
             read_from_y,
@@ -112,7 +112,7 @@ class InstructionDecoder:
             read_from_osr,
         ]
 
-        self.mov_sources: List[Callable[[State], int] | None] = [
+        self.mov_sources = [
             read_from_pins,
             read_from_x,
             read_from_y,
@@ -123,9 +123,7 @@ class InstructionDecoder:
             read_from_osr,
         ]
 
-        self.mov_destinations: List[
-            Callable[[Callable[[State], int], State], State] | None
-        ] = [
+        self.mov_destinations = [
             write_to_pins,
             write_to_x,
             write_to_y,
@@ -136,7 +134,6 @@ class InstructionDecoder:
             write_to_osr,
         ]
 
-        # FIXME: Different signature used by write_to_isr() conflicts with type-hints
         self.out_destinations = [
             write_to_pins,
             write_to_x,
@@ -148,9 +145,7 @@ class InstructionDecoder:
             None,
         ]
 
-        self.set_destinations: List[
-            Callable[[Callable[[State], int], State], State] | None
-        ] = [
+        self.set_destinations = [
             write_to_pins,
             write_to_x,
             write_to_y,
@@ -161,7 +156,7 @@ class InstructionDecoder:
             None,
         ]
 
-    def decode(self, opcode: int) -> Instruction | None:
+    def decode(self, opcode):
         """
         Decodes the given opcode and returns a callable which emulates it.
 
@@ -175,7 +170,7 @@ class InstructionDecoder:
         decoding_function = self.decoding_functions[(opcode >> 13) & 7]
         return decoding_function(opcode)
 
-    def _decode_jmp(self, opcode: int) -> Instruction | None:
+    def _decode_jmp(self, opcode):
         address = opcode & 0x1F
         condition = self.jmp_conditions[(opcode >> 5) & 7]
 
@@ -188,7 +183,7 @@ class InstructionDecoder:
 
         return None
 
-    def _decode_mov(self, opcode: int) -> Instruction | None:
+    def _decode_mov(self, opcode):
         read_from_source = self.mov_sources[opcode & 7]
 
         destination = (opcode >> 5) & 7
@@ -215,7 +210,7 @@ class InstructionDecoder:
             program_counter_advance,
         )
 
-    def _decode_in(self, opcode: int) -> Instruction | None:
+    def _decode_in(self, opcode):
         read_from_source = self.in_sources[(opcode >> 5) & 7]
 
         bit_count = opcode & 0x1F
@@ -229,7 +224,7 @@ class InstructionDecoder:
             ProgramCounterAdvance.ALWAYS,
         )
 
-    def _decode_out(self, opcode: int) -> Instruction | None:
+    def _decode_out(self, opcode):
         destination = (opcode >> 5) & 7
         write_to_destination = self.out_destinations[destination]
 
@@ -261,7 +256,7 @@ class InstructionDecoder:
 
         return Instruction(always, emulate_out, ProgramCounterAdvance.ALWAYS)
 
-    def _decode_set(self, opcode: int) -> Instruction | None:
+    def _decode_set(self, opcode):
         write_to_destination = self.set_destinations[(opcode >> 5) & 7]
 
         if write_to_destination is None:
@@ -274,7 +269,7 @@ class InstructionDecoder:
         )
 
     @staticmethod
-    def _decode_pull(opcode: int) -> Instruction | None:
+    def _decode_pull(opcode):
         if opcode & 0x0020:
             instruction = Instruction(
                 transmit_fifo_not_empty,
@@ -289,7 +284,7 @@ class InstructionDecoder:
         return instruction
 
     @staticmethod
-    def _decode_wait(opcode: int) -> Instruction | None:
+    def _decode_wait(opcode):
         index = opcode & 0x001F
 
         if opcode & 0x0080:

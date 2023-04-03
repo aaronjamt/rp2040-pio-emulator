@@ -28,34 +28,34 @@ class ShiftRegister:
 
     Attributes
     ----------
-    contents : int
+    contents 
         Value held within this shift register.
-    counter : int
+    counter 
         Total number of bits shifted out of / into this shift register (0-32).
     """
 
-    def __init__(self, contents: int, counter: int):
+    def __init__(self, contents, counter):
         self._contents = contents
         self._counter = counter
 
     @property
-    def contents(self) -> int:
+    def contents(self):
         """Return the value held within this shift register."""
         return self._contents
 
     @property
-    def counter(self) -> int:
+    def counter(self):
         """Return the total number of bits shifted out of / into this shift register."""
         return self._counter
 
-    def shift_left(self, bit_count: int, data_in: int = 0) -> Tuple[Self, int]:
+    def shift_left(self, bit_count, data_in = 0):
         """Shifts the most significant bits out of the shift register.
 
         Parameters
         ----------
-        bit_count : int
+        bit_count 
             Number of bits to shift into and out of the register.
-        data_in : int, optional
+        data_in , optional
             Value to shift into the register's least significant bits.
 
         Returns
@@ -74,14 +74,14 @@ class ShiftRegister:
             32 - bit_count
         )
 
-    def shift_right(self, bit_count: int, data_in: int = 0) -> Tuple[Self, int]:
+    def shift_right(self, bit_count, data_in = 0):
         """Shifts the least significant bits out of the shift register.
 
         Parameters
         ----------
-        bit_count : int
+        bit_count 
             Number of bits to shift into and out of the register.
-        data_in : int, optional
+        data_in , optional
             Value to shift into the register's most significant bits.
 
         Returns
@@ -101,11 +101,11 @@ class ShiftRegister:
             self._contents & bit_mask,
         )
 
-    def __eq__(self, other: object) -> bool:
+    def __eq__(self, other):
         if self.__class__ is other.__class__:
             return (self._contents, self._counter) == (other._contents, other._counter)
 
         return NotImplemented
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"ShiftRegister(contents={self._contents!r}, counter={self._counter!r})"
