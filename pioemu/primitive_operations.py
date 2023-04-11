@@ -154,3 +154,6 @@ def supplies_value(value: int) -> Callable[[State], int]:
     """Creates a function that returns the specified value when invoked."""
 
     return lambda _: value
+
+# For instructions that are reserved for future use
+reserved_instruction = None

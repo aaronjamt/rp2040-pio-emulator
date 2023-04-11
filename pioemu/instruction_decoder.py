@@ -51,6 +51,7 @@ from .primitive_operations import (
     write_to_x,
     write_to_y,
     write_to_null,
+    reserved_instruction,
 )
 from .shift_register import ShiftRegister
 from .state import State
@@ -109,8 +110,8 @@ class InstructionDecoder:
             read_from_x,
             read_from_y,
             supplies_value(0),
-            None, # Reserved
-            None, # Reserved
+            reserved_instruction,
+            reserved_instruction,
             read_from_isr,
             read_from_osr,
         ]
@@ -120,8 +121,8 @@ class InstructionDecoder:
             read_from_x,
             read_from_y,
             supplies_value(0),
-            None,
-            None,
+            reserved_instruction,
+            None, # Status
             read_from_isr,
             read_from_osr,
         ]
@@ -132,7 +133,7 @@ class InstructionDecoder:
             write_to_pins,
             write_to_x,
             write_to_y,
-            None, # Reserved
+            reserved_instruction,
             None, # Exec
             write_to_program_counter,
             write_to_isr,
@@ -157,11 +158,11 @@ class InstructionDecoder:
             write_to_pins,
             write_to_x,
             write_to_y,
-            None, # Reserved
+            reserved_instruction,
             write_to_pin_directions,
-            None, # Reserved
-            None, # Reserved
-            None, # Reserved
+            reserved_instruction,
+            reserved_instruction,
+            reserved_instruction,
         ]
 
     def decode(self, opcode: int) -> Instruction | None:
