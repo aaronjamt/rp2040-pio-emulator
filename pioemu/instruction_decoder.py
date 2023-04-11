@@ -89,7 +89,7 @@ class InstructionDecoder:
             self._decode_out,
             self._decode_push_pull,
             self._decode_mov,
-            lambda _: None,
+            lambda _: None, # IRQ
             self._decode_set,
         ]
 
@@ -109,8 +109,8 @@ class InstructionDecoder:
             read_from_x,
             read_from_y,
             supplies_value(0),
-            None,
-            None,
+            None, # Reserved
+            None, # Reserved
             read_from_isr,
             read_from_osr,
         ]
@@ -132,8 +132,8 @@ class InstructionDecoder:
             write_to_pins,
             write_to_x,
             write_to_y,
-            None,
-            None,
+            None, # Reserved
+            None, # Exec
             write_to_program_counter,
             write_to_isr,
             write_to_osr,
@@ -148,7 +148,7 @@ class InstructionDecoder:
             write_to_pin_directions,
             write_to_program_counter,
             write_to_isr,
-            None,
+            None, # Exec
         ]
 
         self.set_destinations: List[
@@ -157,11 +157,11 @@ class InstructionDecoder:
             write_to_pins,
             write_to_x,
             write_to_y,
-            None,
+            None, # Reserved
             write_to_pin_directions,
-            None,
-            None,
-            None,
+            None, # Reserved
+            None, # Reserved
+            None, # Reserved
         ]
 
     def decode(self, opcode: int) -> Instruction | None:
